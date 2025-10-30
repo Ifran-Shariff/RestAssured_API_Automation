@@ -13,10 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.matchesPattern;
 
 public class HTTP_post_call {
     //working on API- https://practice.expandtesting.com/notes/api/api-docs/
-    String token, name, phone;
+    String token, name, phone, id;
     Response response;
 
     @BeforeClass
@@ -47,7 +48,7 @@ public class HTTP_post_call {
                 .extract().response();
 
                 //storing id from the response body
-        String id = response.jsonPath().getString("data.id");
+        id = response.jsonPath().getString("data.id");
         System.out.println("Generated ID: " + id);
     }
 
@@ -142,5 +143,42 @@ public class HTTP_post_call {
                 .body("message", equalTo("User has been successfully logged out"))
                 .extract().response();
     }
+
+
+    //get user details with query params
+    @Test(testName = "queryparam", dependsOnMethods = "userLogin")
+    public void getqueryparam(){
+        System.out.println("------------Starting queryparam execution-----------");
+        given()
+                .log().all()
+                .header("x-auth-token", token)
+                .queryParam("id", 2)            //passing query params
+
+                .when()
+                .get("https://jsonplaceholder.typicode.com/comments")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("[0].id", equalTo(2))
+                //.body("id", equalTo(2))
+                .extract().response();
+    }
+
+    //get request with path params
+    @Test
+    void pathparams(){
+        System.out.println("------------Starting pathparam execution-----------");
+        given()
+                .when()
+                .log().all()
+                .get("https://jsonplaceholder.typicode.com/posts/1") //path parameter = 1
+                .then()
+                .log().all()
+                .statusCode(200);
+
+    }
+
+
+
 }
 
