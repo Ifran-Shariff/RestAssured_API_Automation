@@ -14,8 +14,6 @@ An API allows two software systems to communicate with each other. Think of it a
 4. gRPC API - gRPC is used in high-performance, low-latency systems like internal microservices, streaming, and IoT.
 5. WebSocket API - WebSockets are perfect for chat apps, live dashboards, gaming, and financial tickers where instant updates are critical.
 
-<img width="1047" height="534" alt="image" src="https://github.com/user-attachments/assets/e0263abf-b045-4a7f-972a-e4b448c6d58d" />
-
 **HTTP Methods (CRUD Operations)**
 1. Get - Read data
 2. Put - Update data(Updates full record, ex: Replace a student’s full record)
